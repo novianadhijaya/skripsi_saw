@@ -116,7 +116,7 @@ class Profile extends CI_Controller
     
    function upload_foto(){
         $config['upload_path']          = './assets/foto_profil';
-        $config['allowed_types']        = 'gif|jpg|png|';
+        $config['allowed_types']        = 'gif|jpg|jpeg|png';
         //$config['max_size']             = 100;
         //$config['max_width']            = 1024;
         //$config['max_height']           = 768;
