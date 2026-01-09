@@ -1,0 +1,7 @@
+head hrd : superadm@gmail.com
+password : sukses889
+
+staff hrd : sitinurhaliza@gmail.com
+password : sukses889
+
+karyawan : sukses889

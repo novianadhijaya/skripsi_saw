@@ -1,0 +1,88 @@
+Perhitungan SAW (Simple Additive Weighting) yang digunakan pada Hasil Penilaian Karyawan (dihitung untuk setiap karyawan)
+
+1) Data awal (rating kecocokan):
+   - C1: Absensi (benefit)
+   - C2: Produktifitas (benefit)
+   - C3: Kualitas Kerja (benefit)
+   - C4: Perilaku (benefit)
+
+2) Normalisasi tiap kriteria (karena semua benefit):
+   r_ij = x_ij / max_j
+   dengan:
+   - x_ij = nilai karyawan i pada kriteria j (bobot_kriteria dari tabel kriteria_*)
+   - max_j = nilai maksimum di kolom kriteria j
+
+3) Bobot kriteria:
+   w = { C1: 0.40, C2: 0.25, C3: 0.15, C4: 0.20 }
+
+4) Skor akhir karyawan i:
+   S_i = (r_i1 * 0.40) + (r_i2 * 0.25) + (r_i3 * 0.15) + (r_i4 * 0.20)
+   (dihitung per karyawan, memakai hasil normalisasi karyawan tersebut)
+
+5) Peringkat:
+   - Urutkan DESC berdasar S_i.
+   - Jika S_i sama, tie-breaker: C1 DESC, C2 DESC, C3 DESC, C4 DESC, nama_karyawan ASC.
+
+6) Status:
+   - Teladan          : S_i >= 0.80
+   - Perlu Peningkatan: 0.60 <= S_i < 0.80
+   - Belum Teladan    : S_i < 0.60
+
+Catatan:
+- Normalisasi menggunakan nilai maksimum per kolom (benefit).
+- Bila ada kriteria bertipe cost, gunakan r_ij = min_j / x_ij untuk kriteria tersebut.
+
+Contoh perhitungan: Eko Prabowo
+- Nilai asli: C1=1, C2=1, C3=1, C4=1
+- Nilai maksimum (max_j): maxC1=1, maxC2=1, maxC3=1, maxC4=1
+- Normalisasi (benefit): rC1=1/1=1.000, rC2=1/1=1.000, rC3=1/1=1.000, rC4=1/1=1.000
+- Bobot: C1=0.40, C2=0.25, C3=0.15, C4=0.20
+- Skor SAW: (1.000×0.40)+(1.000×0.25)+(1.000×0.15)+(1.000×0.20) = 1.000
+- Status: Karyawan Teladan (karena >= 0.80)
+
+Contoh perhitungan: Nanda Kusuma
+- Nilai asli: C1=1, C2=1, C3=1, C4=1
+- Nilai maksimum (max_j): maxC1=1, maxC2=1, maxC3=1, maxC4=1
+- Normalisasi (benefit): rC1=1/1=1.000, rC2=1/1=1.000, rC3=1/1=1.000, rC4=1/1=1.000
+- Bobot: C1=0.40, C2=0.25, C3=0.15, C4=0.20
+- Skor SAW: (1.000×0.40)+(1.000×0.25)+(1.000×0.15)+(1.000×0.20) = 1.000
+- Status: Karyawan Teladan (karena >= 0.80)
+
+Contoh perhitungan: Angga Saputra
+- Nilai asli: C1=0.75, C2=0.75, C3=0.75, C4=1
+- Nilai maksimum (max_j): maxC1=1, maxC2=1, maxC3=1, maxC4=1
+- Normalisasi (benefit): rC1=0.75/1=0.750, rC2=0.75/1=0.750, rC3=0.75/1=0.750, rC4=1/1=1.000
+- Bobot: C1=0.40, C2=0.25, C3=0.15, C4=0.20
+- Skor SAW: (0.750×0.40)+(0.750×0.25)+(0.750×0.15)+(1.000×0.20) = 0.800
+- Status: Karyawan Teladan (karena >= 0.80)
+
+Contoh perhitungan: Agus Widodo
+- Nilai asli: C1=0.75, C2=0.75, C3=0.25, C4=0.75
+- Nilai maksimum (max_j): maxC1=1, maxC2=1, maxC3=1, maxC4=1
+- Normalisasi (benefit): rC1=0.75/1=0.750, rC2=0.75/1=0.750, rC3=0.25/1=0.250, rC4=0.75/1=0.750
+- Bobot: C1=0.40, C2=0.25, C3=0.15, C4=0.20
+- Skor SAW: (0.750×0.40)+(0.750×0.25)+(0.250×0.15)+(0.750×0.20) = 0.675
+- Status: Perlu Peningkatan (0.60 <= 0.675 < 0.80)
+
+Contoh perhitungan: Arif Nugroho
+- Nilai asli: C1=0.75, C2=0.75, C3=0.25, C4=0.75
+- Nilai maksimum (max_j): maxC1=1, maxC2=1, maxC3=1, maxC4=1
+- Normalisasi (benefit): rC1=0.75/1=0.750, rC2=0.75/1=0.750, rC3=0.25/1=0.250, rC4=0.75/1=0.750
+- Bobot: C1=0.40, C2=0.25, C3=0.15, C4=0.20
+- Skor SAW: (0.750×0.40)+(0.750×0.25)+(0.250×0.15)+(0.750×0.20) = 0.675
+- Status: Perlu Peningkatan (0.60 <= 0.675 < 0.80)
+
+Contoh perhitungan: Adi Gunawan
+- Nilai asli: C1=0.75, C2=0.25, C3=0.25, C4=0.75
+- Normalisasi (benefit): rC1=0.75/1=0.750, rC2=0.25/1=0.250, rC3=0.25/1=0.250, rC4=0.75/1=0.750
+- Bobot: C1=0.40, C2=0.25, C3=0.15, C4=0.20
+- Skor SAW: (0.750×0.40)+(0.250×0.25)+(0.250×0.15)+(0.750×0.20) = 0.550
+- Status: Belum Teladan (karena < 0.60)
+
+Contoh perhitungan: Ramadhan Al Furqon
+- Nilai asli: C1=0.75, C2=0.25, C3=0.75, C4=0.75
+- Nilai maksimum (max_j): maxC1=1, maxC2=1, maxC3=1, maxC4=1
+- Normalisasi (benefit): rC1=0.75/1=0.750, rC2=0.25/1=0.250, rC3=0.75/1=0.750, rC4=0.75/1=0.750
+- Bobot: C1=0.40, C2=0.25, C3=0.15, C4=0.20
+- Skor SAW: (0.750×0.40)+(0.250×0.25)+(0.750×0.15)+(0.750×0.20) = 0.625
+- Status: Perlu Peningkatan (0.60 <= 0.625 < 0.80)
